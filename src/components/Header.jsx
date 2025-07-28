@@ -11,7 +11,7 @@ import { ShopContext } from '../contexts/ShopContext'
 
 
 const Header = () => {
-  const {token} = useContext(ShopContext)
+  const {token, getCartCount} = useContext(ShopContext)
   const [menuOpened, setMenuOpened ] = useState(false)
 
   const toggleMenu = () => setMenuOpened((prev) => !prev)
@@ -20,7 +20,7 @@ const Header = () => {
       <div className='flexBetween py-3'>
         <Link to={'/'} className='flex flex-1 '>
           <div>
-            <img src={logo} className="w-24 h-24 oject-contain rounded-md bold-32" />
+            <img src={logo} className="w-[100px] h-[100px] object-contain rounded-md bold-32" />
           </div>
           
         </Link>
@@ -38,9 +38,9 @@ const Header = () => {
           <FaSearch className='text-lg cursor-pointer' />
 
           {/**Cart */}
-          <Link to={''} className='flex relative'>
+          <Link to={'/cart'} className='flex relative'>
             <TbBasket className='text-[27px]' />
-            <span className='bg-secondary text-white text-[12px] font-semibold left-1.5 -top-3.5 flexCenter w-4 h-4 rounded-full shadow-md'>0</span>
+            <span className='bg-secondary text-white text-[12px] font-semibold left-1.5 -top-3.5 flexCenter w-4 h-4 rounded-full shadow-md'>{getCartCount()}</span>
           </Link>
 
           {/** User profile */}

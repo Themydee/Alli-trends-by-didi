@@ -7,7 +7,7 @@ const Banner = () => {
   return (
     <section className='mx-auto'>
       <div className="flexBetween bg-white">
-         <div className="hidden lg:block flex-1 px-6 xl:px-12">
+         <div className=" lg:block flex-1 px-6 xl:px-12">
             <h2 className="h2 uppercase">Affordable Styles, Elegant Beauties</h2>
             <h3 className="h4 uppercase">Transform your style here with us</h3>
             <div className="flex mt-5">
@@ -19,7 +19,7 @@ const Banner = () => {
         </div>
 
         <div className="flex-1">
-          <img src={banner} className=' rounded-tl-3xl rounded-bl-3xl' alt="" />
+          <img src={banner} className='rounded-tl-3xl rounded-bl-3xl' alt="" />
         </div>
       </div>
        

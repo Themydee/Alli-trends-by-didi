@@ -1,6 +1,6 @@
 import React from 'react'
-import f1 from '../assets/features/feature1.png'
-import f2 from '../assets/features/feature2.png'
+import f1 from '../assets/features/bg.jpg'
+import f2 from '../assets/features/bg.jpg'
 
 const Features = () => {
   return (

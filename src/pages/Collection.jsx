@@ -83,7 +83,7 @@ const Collection = () => {
           </div>
 
           <div>
-            <h5 className='h5 mb-4'>Wears</h5>
+            <h5 className='h5 pt-8 mb-4'>Wears</h5>
             <div className='flex flex-col gap-2 text-sm-font-light'>
               {[ "Topwear", "Bottomwear", "Winterwear"].map((subCat) => (
                 <label key={subCat} className='flex gap-2 medium-14 text-gray-30'>
@@ -94,7 +94,7 @@ const Collection = () => {
             </div>
           </div>
 
-          <div className="px-4 py-3 mt-6 bg-white rounded-xl">
+          <div className="px-2 py-4 mt-8 bg-white rounded-xl">
             <h5 className='h5 mb-4'>Sort By</h5>
             <select onChange={(e) => setSortType(e.target.value)} className='border border-slate-900/5 outline-none text-gray-30 medium-14 h-8 w-full rounded px-2 '>
               <option value='relevant'>Relevant</option>

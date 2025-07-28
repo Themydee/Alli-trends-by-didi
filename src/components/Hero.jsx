@@ -12,7 +12,7 @@ const Hero = () => {
 
   return (
     <section className='p-6 bg-hero bg-cover bg-center bg-no-repeat h-[667px] w-full mb-10 relative'>
-      <div className='bg-white p-3 rounded-2xl max-w-[233px] relative top-6 xl:top-12'>
+      <div className='bg-white p-3 rounded-2xl max-w-[233px] relative top-3 xl:top-6'>
         <div className='relative'>
 
           {playVideo ? (
@@ -52,10 +52,10 @@ const Hero = () => {
       </div>
 
       <div className='mt-12 sm:mt-20 xl:mt-40 max-w-[777px]'>
-        <h5 className='flex items-baseline gap-x-2 uppercase text-secondary medium-18'>
+        <h5 className='flex items-baseline gap-x-2 uppercase text-red-500 medium-18'>
           Modern Collection <BsFire />
         </h5>
-        <h1 className='h1 font-[500] capitalize max-w-[722px]'>
+        <h1 className='text-black-700 h1 font-[500] capitalize max-w-[722px]'>
           Shop till your satisfaction is no more!
         </h1>
         <div className='flex'>
