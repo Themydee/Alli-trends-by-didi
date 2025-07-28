@@ -6,10 +6,12 @@ import { FaBarsStaggered, FaRegCircleUser } from "react-icons/fa6";
 import {FaSearch} from 'react-icons/fa';
 import { TbBasket, TbUserCircle } from "react-icons/tb";
 import { RiUserLine } from "react-icons/ri";
+import { useContext } from 'react'
+import { ShopContext } from '../contexts/ShopContext'
 
 
 const Header = () => {
-  const [token, setToken] = useState('')
+  const {token} = useContext(ShopContext)
   const [menuOpened, setMenuOpened ] = useState(false)
 
   const toggleMenu = () => setMenuOpened((prev) => !prev)
