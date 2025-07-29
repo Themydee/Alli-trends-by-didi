@@ -22,7 +22,7 @@ const RelatedProducts = ({category, subCategory}) => {
   return (
 
     <section className='py-16'>
-      <Title title1={'Related'} title2={'Products'} title1Styles={'pb-4'} />
+      <Title title1={'Related '} title2={'Products'} title1Styles={'pb-4'} />
       <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 '>
         {related.map((product, item) =>(
           <Item key={product._id} product={product} />

@@ -3,9 +3,11 @@ import { ShopContext } from '../contexts/ShopContext';
 import { FaRegWindowClose } from 'react-icons/fa';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import Title from '../components/Title';
+import CartTotal from '../components/CartTotal';
+import Footer from '../components/Footer';
 
 const Cart = () => {
-  const { products, cartItem, currency, getCartCount, navigate } = useContext(ShopContext);
+  const { products, cartItem, currency, getCartCount, navigate, removeFromCart } = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
   const [quantities, setQuantities] = useState({});
@@ -60,7 +62,7 @@ const Cart = () => {
       <div className='bg-primary mb-16'>
         <div className='max-padd-container py-10'>
           <div className='flexStart gap-x-4'>
-            <Title title1={'Cart'} title2={'List'} title1Styles={'h3'} />
+            <Title title1={'Cart '} title2={'List'} title1Styles={'h3'} />
             <h5 className='medium-15 text-gray-30 relative bottom-1.5'>
               ({getCartCount()} Items)
             </h5>
@@ -88,7 +90,7 @@ const Cart = () => {
                   <div className='flex flex-col w-full'>
                     <div className='flexBetween'>
                       <h5 className='h5 !my-0 line-clamp-1'>{productData.name}</h5>
-                      <FaRegWindowClose className='cursor-pointer text-secondary' />
+                      <FaRegWindowClose onClick={() => removeFromCart(item._id, item.size, 0)}className='cursor-pointer text-secondary' />
                     </div>
 
                     <p className='bold-14 mt-1 text-sm text-gray-30'>Size: {item.size}</p>
@@ -120,8 +122,18 @@ const Cart = () => {
             );
           })}
         </div>
+
+        <div className='flex my-20'>
+          <div className='w-full sm:w-[450px]'>
+            <CartTotal />
+            <button onClick={() => navigate('/place-order')} className='btn-secondary'>Proceed to Checkout</button>
+          </div>
+        </div>
       </div>
+
+      <Footer />
     </div>
+
   );
 };
 

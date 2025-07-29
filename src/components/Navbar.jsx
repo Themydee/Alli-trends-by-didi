@@ -11,11 +11,7 @@ const Navbar = ({containerStyles}) => {
     {
       path: '/collection', title: "Collection"
     },
-
-    {
-      path: '/testimonials', title: "Testimonials"
-    },
-
+    
     {
       path: 'mailto:trendsbydidi@gmail.com', title: "Contact"
     },

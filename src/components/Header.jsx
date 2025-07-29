@@ -11,12 +11,18 @@ import { ShopContext } from '../contexts/ShopContext'
 
 
 const Header = () => {
-  const {token, getCartCount} = useContext(ShopContext)
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken(null)
+      navigate('/login'); 
+  }
+  const {token, getCartCount, navigate} = useContext(ShopContext)
   const [menuOpened, setMenuOpened ] = useState(false)
 
   const toggleMenu = () => setMenuOpened((prev) => !prev)
   return (
-   <header className='max-padd-container w-full z-50'>
+   <header className='max-padd-container w-full'>
       <div className='flexBetween py-3'>
         <Link to={'/'} className='flex flex-1 '>
           <div>
@@ -51,11 +57,18 @@ const Header = () => {
                 <TbUserCircle />
               </div>
             ): (
-            <button className='btn-light flexCenter gpa-x-2'>
+            <button onClick={() => navigate('/login')}className='btn-light flexCenter gpa-x-2'>
               Login <RiUserLine  className='text-xl'/>
             </button>
           )}
             </div>
+
+            {token && (
+              <ul className='bg-white p-2 w-32 ring-1 ring-slate-900/5 absolute right-0 top-7 hidden group-hover:flex flex-col regular-14 shadow-md z-50'>
+                <li onClick={() => navigate('/orders')} className='p-2 text-tertiary rounded-md hover:bg-primary cursor-pointer'>Orders</li>
+                <li onClick={logout} className='p-2 text-tertiary rounded-md hover:bg-primary cursor-pointer'>Logout</li>
+              </ul>
+            )}
           </div>
         </div>
 

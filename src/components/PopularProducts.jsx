@@ -14,7 +14,7 @@ useEffect(() => {
 }, [products])
   return (
     <section className='bg-[#8dd7e436] py-16 max-padd-container'>
-      <TItle title1={'Popular'} title2={'Products'} titleStyles={'pb-10'} paraStyles={'!block'}/>
+      <TItle title1={'Popular '} title2={'Products'} titleStyles={'pb-10'} paraStyles={'!block'}/>
 
       <div className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8'>
         {popularProducts.map(product => (
