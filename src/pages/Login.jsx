@@ -1,11 +1,54 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import login from "../assets/login.png";
 import logo from "../assets/didi.png"
+import axios from "axios";
+import { toast } from "react-toastify";
+
+
 
 const Login = () => {
-  const { token, setToken, navigate } = useContext(ShopContext);
+  const { token, setToken, navigate, server_url } = useContext(ShopContext);
   const [currentState, setCurrentState] = useState("Sign Up");
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const onSubmitHandler = async(e) => {
+    e.preventDefault()
+
+    try {
+      if(currentState === "Sign Up"){
+        const response = await axios.post(server_url + '/api/user/register', {name, email, password})
+
+        if(response.data.success){
+          setToken(response.data.token)
+          localStorage.setItem('token', response.data.token)
+        } else{
+          toast.error(response.data.message)
+        }
+      }else{
+        const response = await axios.post(server_url + '/api/user/login', {email, password})
+
+        if (response.data.success) {
+          setToken(response.data.token)
+          localStorage.setItem('token', response.data.token)
+        } else[
+          toast.error(response.data.message)
+        ]
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
+
+  useEffect(() => {
+    if(token){
+      navigate('/')
+    }
+  }, [token])
   return (
     <div className="absolute t0p-0 left-0 h-full w-full z-50 bg-white">
       <div className="flex h-full w-full">
@@ -14,7 +57,7 @@ const Login = () => {
         </div>
 
         <div className="flex w-full sm:w-1/2 items-center justify-center"> 
-          <form className="flex flex-col items-center w-[90%] sm:max-w-md m-auto gap-y-5"  action="">
+          <form onSubmit={onSubmitHandler} className="flex flex-col items-center w-[90%] sm:max-w-md m-auto gap-y-5"  action="">
             <div className="w-full flex items-center gap-3 mb-4">
               <h3 className="bold-36">{currentState}</h3>
               <img src={logo} alt="" className="w-20 h-20 object-contain" />
@@ -25,6 +68,8 @@ const Login = () => {
                   Name
                 </label>
                 <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                   type="text"
                   placeholder="Name"
                   className="w-full px-3 py-1.5 ring-1 ring-slate-900/10 rounded bg-primary mt-1"
@@ -38,7 +83,9 @@ const Login = () => {
                 Email
               </label>
               <input
-                type="text"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+                type="email"
                 placeholder="email"
                 className="w-full px-3 py-1.5 ring-1 ring-slate-900/10 rounded bg-primary mt-1"
                 required
@@ -50,7 +97,9 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="text"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+                type="password"
                 placeholder="password"
                 className="w-full px-3 py-1.5 ring-1 ring-slate-900/10 rounded bg-primary mt-1"
                 required

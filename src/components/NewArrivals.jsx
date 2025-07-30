@@ -20,8 +20,8 @@ const NewArrivals = () => {
     setNewArrivals(data)
   }, [products])
   return (
-    <section className='max-padd-container pt-16 pb-6 bg-[#8dd7e436]'>
-      <Title title1={'New'} title2={'Arrivals'} title1Styles={'pb-10'} paraStyles={'!block'}/>
+    <section className='max-padd-container pt-16 pb-10 bg-[#8dd7e436]'>
+      <Title title1={'New'} title2={'Arrivals'} title1Styles={'pb-3'} paraStyles={'!block'}/>
       <Swiper
         autoplay={{
           display: 2500,
@@ -55,9 +55,12 @@ const NewArrivals = () => {
         modules={[Autoplay, Pagination]}
         className='h-[555px] sm:h-[411px] md:h-[488px]'
       >
-        {newArrivals.map((product) => ( 
+        <div className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8'>
+          {newArrivals.map((product) => ( 
           <SwiperSlide key={product._id}><Item product={product}/></SwiperSlide>
         ))}
+        </div>
+        
         
       </Swiper>
     </section>
