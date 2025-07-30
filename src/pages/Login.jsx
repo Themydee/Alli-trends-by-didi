@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import login from "../assets/login.png";
+import logo from "../assets/didi.png"
 
 const Login = () => {
   const { token, setToken, navigate } = useContext(ShopContext);
@@ -8,14 +9,15 @@ const Login = () => {
   return (
     <div className="absolute t0p-0 left-0 h-full w-full z-50 bg-white">
       <div className="flex h-full w-full">
-        <div className="w-1/2 hidden sm:block ">
+        <div className="w-1/2 hidden sm:block items-center gap-3">
           <img src={login} alt="" className="object-cover h-full w-full" />
         </div>
 
         <div className="flex w-full sm:w-1/2 items-center justify-center"> 
           <form className="flex flex-col items-center w-[90%] sm:max-w-md m-auto gap-y-5"  action="">
-            <div className="w-full mb-4">
+            <div className="w-full flex items-center gap-3 mb-4">
               <h3 className="bold-36">{currentState}</h3>
+              <img src={logo} alt="" className="w-20 h-20 object-contain" />
             </div>
             {currentState === "Sign Up" && (
               <div className="w-full">

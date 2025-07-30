@@ -1,13 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ShopContext } from '../contexts/ShopContext';
-import { FaRegWindowClose } from 'react-icons/fa';
-import { FaMinus, FaPlus } from 'react-icons/fa6';
-import Title from '../components/Title';
-import CartTotal from '../components/CartTotal';
-import Footer from '../components/Footer';
+import React, { useState, useEffect, useContext } from "react";
+import { ShopContext } from "../contexts/ShopContext";
+import { FaRegWindowClose } from "react-icons/fa";
+import { FaMinus, FaPlus } from "react-icons/fa6";
+import Title from "../components/Title";
+import CartTotal from "../components/CartTotal";
+import Footer from "../components/Footer";
 
 const Cart = () => {
-  const { products, cartItem, currency, getCartCount, navigate, removeFromCart } = useContext(ShopContext);
+  const {
+    products,
+    cartItem,
+    currency,
+    getCartCount,
+    navigate,
+    removeFromCart,
+  } = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
   const [quantities, setQuantities] = useState({});
@@ -17,14 +24,17 @@ const Cart = () => {
       const tempData = [];
       const initialQuantities = {};
       for (const items in cartItem) {
-        for (const item in cartItem[items]) {
-          if (cartItem[items][item] > 0) {
+        for (const variantKey in cartItem[items]) {
+          if (cartItem[items][variantKey] > 0) {
+            const [size, color] = variantKey.split("_");
             tempData.push({
               _id: items,
-              size: item,
-              quantity: cartItem[items][item],
+              size,
+              color,
+              quantity: cartItem[items][variantKey],
             });
-            initialQuantities[`${items}-${item}`] = cartItem[items][item];
+            initialQuantities[`${items}-${size}_${color}`] =
+              cartItem[items][variantKey];
           }
         }
       }
@@ -59,59 +69,79 @@ const Cart = () => {
 
   return (
     <div>
-      <div className='bg-primary mb-16'>
-        <div className='max-padd-container py-10'>
-          <div className='flexStart gap-x-4'>
-            <Title title1={'Cart '} title2={'List'} title1Styles={'h3'} />
-            <h5 className='medium-15 text-gray-30 relative bottom-1.5'>
+      <div className="bg-primary mb-16">
+        <div className="max-padd-container py-10">
+          <div className="flexStart gap-x-4">
+            <Title title1={"Cart "} title2={"List"} title1Styles={"h3"} />
+            <h5 className="medium-15 text-gray-30 relative bottom-1.5">
               ({getCartCount()} Items)
             </h5>
           </div>
         </div>
 
-        <div className='mt-6 max-padd-container'>
+        <div className="mt-6 max-padd-container">
           {cartData.length === 0 && (
             <p className="text-center text-gray-500">Your cart is empty.</p>
           )}
 
           {cartData.map((item) => {
-            const productData = products.find((product) => product._id === item._id);
-            const key = `${item._id}-${item.size}`;
+            const productData = products.find(
+              (product) => product._id === item._id
+            );
+            const key = `${item._id}-${item.size}_${item.color}`;
 
             return (
-              <div key={key} className='rounded-lg bg-white p-4 mb-4 shadow-sm'>
-                <div className='flex items-center gap-x-4'>
+              <div key={key} className="rounded-lg bg-white p-4 mb-4 shadow-sm">
+                <div className="flex items-center gap-x-4">
                   <img
                     src={productData.image[0]}
                     alt={productData.name}
-                    className='w-20 h-20 rounded object-cover'
+                    className="w-20 h-20 rounded object-cover"
                   />
 
-                  <div className='flex flex-col w-full'>
-                    <div className='flexBetween'>
-                      <h5 className='h5 !my-0 line-clamp-1'>{productData.name}</h5>
-                      <FaRegWindowClose onClick={() => removeFromCart(item._id, item.size, 0)}className='cursor-pointer text-secondary' />
+                  <div className="flex flex-col w-full">
+                    <div className="flexBetween">
+                      <h5 className="h5 !my-0 line-clamp-1">
+                        {productData.name}
+                      </h5>
+                      <FaRegWindowClose
+                        onClick={() => removeFromCart(item._id, item.size, 0)}
+                        className="cursor-pointer text-secondary"
+                      />
                     </div>
 
-                    <p className='bold-14 mt-1 text-sm text-gray-30'>Size: {item.size}</p>
+                    <div className="flex gap-3 text-sm text-gray-500 mt-1">
+                      <p>
+                        Size:{" "}
+                        <span className="text-black font-medium">
+                          {item.size}
+                        </span>
+                      </p>
+                      <p>
+                        Color:{" "}
+                        <span className="text-black font-medium">
+                          {item.color}
+                        </span>
+                      </p>
+                    </div>
 
-                    <div className='flex items-center justify-between w-full mt-2'>
-                      <div className='flex items-center gap-2'>
+                    <div className="flex items-center justify-between w-full mt-2">
+                      <div className="flex items-center gap-2">
                         <button
                           onClick={() => decrement(item._id, item.size)}
-                          className='p-1.5 bg-white text-secondary rounded-full shadow-md'
+                          className="p-1.5 bg-white text-secondary rounded-full shadow-md"
                         >
-                          <FaMinus className='text-xs' />
+                          <FaMinus className="text-xs" />
                         </button>
                         <p>{quantities[key]}</p>
                         <button
                           onClick={() => increment(item._id, item.size)}
-                          className='p-1.5 bg-white text-secondary rounded-full shadow-md'
+                          className="p-1.5 bg-white text-secondary rounded-full shadow-md"
                         >
-                          <FaPlus className='text-xs' />
+                          <FaPlus className="text-xs" />
                         </button>
                       </div>
-                      <h1 className='text-sm font-bold'>
+                      <h1 className="text-sm font-bold">
                         {currency}
                         {productData.price}
                       </h1>
@@ -123,17 +153,31 @@ const Cart = () => {
           })}
         </div>
 
-        <div className='flex my-20'>
-          <div className='w-full sm:w-[450px]'>
+        <div className="flex justify-center my-20 px-4">
+          <div className="w-full sm:max-w-md bg-white p-6 rounded-xl shadow-md space-y-6">
             <CartTotal />
-            <button onClick={() => navigate('/place-order')} className='btn-secondary'>Proceed to Checkout</button>
+
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-4 pt-4">
+              <button
+                onClick={() => navigate("/collection")}
+                className="btn-secondary w-full sm:w-auto"
+              >
+                Continue Shopping
+              </button>
+
+              <button
+                onClick={() => navigate("/place-order")}
+                className="btn-secondary w-full sm:w-auto"
+              >
+                Proceed to Checkout
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <Footer />
     </div>
-
   );
 };
 

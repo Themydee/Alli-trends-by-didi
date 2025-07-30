@@ -67,6 +67,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716634345448,
         popular: false
     },
@@ -79,6 +80,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716621345448,
         popular: false
     },
@@ -91,6 +93,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716234545448,
         popular: true
     },
@@ -103,6 +106,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["S", "M", "XXL"],
+        colors: ["Red", "Black", "White"],
         date: 1716621345448,
         popular: false
     },
@@ -115,6 +119,7 @@ export const products = [
         category: "Women",
         subCategory: "Winterwear",
         sizes: ["M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716622345448,
         popular: false
     },
@@ -127,6 +132,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["XS", "S", "M"],
+        colors: ["Red", "Black", "White"],
         date: 1716623345448,
         popular: true
     },
@@ -139,6 +145,7 @@ export const products = [
         category: "Women",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716624345448,
         popular: false
     },
@@ -151,6 +158,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["M", "L", "XL", "XXL"],
+        colors: ["Red", "Black", "White"],
         date: 1716625345448,
         popular: true
     },
@@ -163,6 +171,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716626345448,
         popular: false
     },
@@ -175,6 +184,7 @@ export const products = [
         category: "Men",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716627345448,
         popular: false
     },
@@ -187,6 +197,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716628345448,
         popular: true
     },
@@ -199,6 +210,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716629345448,
         popular: false
     },
@@ -211,6 +223,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716630345448,
         popular: true
     },
@@ -223,6 +236,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["M", "L", "XL", "XXL"],
+        colors: ["Red", "Black", "White"],
         date: 1716631345448,
         popular: false
     },
@@ -235,6 +249,7 @@ export const products = [
         category: "Kids",
         subCategory: "Bottomwear",
         sizes: ["XS", "S", "M"],
+        colors: ["Red", "Black", "White"],
         date: 1716632345448,
         popular: true
     },
@@ -247,6 +262,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716633345448,
         popular: true
     },
@@ -259,6 +275,7 @@ export const products = [
         category: "Men",
         subCategory: "Bottomwear",
         sizes: ["M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716634345448,
         popular: true
     },
@@ -271,6 +288,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716635345448,
         popular: false
     },
@@ -283,6 +301,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716636345448,
         popular: false
     },
@@ -295,6 +314,7 @@ export const products = [
         category: "Women",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716637345448,
         popular: true
     },
@@ -307,6 +327,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716638345448,
         popular: true
     },
@@ -319,6 +340,7 @@ export const products = [
         category: "Women",
         subCategory: "Bottomwear",
         sizes: ["M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716639345448,
         popular: false
     },
@@ -331,6 +353,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716640345448,
         popular: false
     },
@@ -343,6 +366,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716641345448,
         popular: true
     },
@@ -355,6 +379,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["M", "L"],
+        colors: ["Red", "Black", "White"],
         date: 1716642345448,
         popular: true
     },
@@ -367,6 +392,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["One Size"],
+        colors: ["Red", "Black", "White"],
         date: 1716643345448,
         popular: false
     },
@@ -379,6 +405,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["One Size"],
+        colors: ["Red", "Black", "White"],
         date: 1716644345448,
         popular: false
     },
@@ -391,6 +418,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716645345448,
         popular: false
     },
@@ -403,6 +431,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["One Size"],
+        colors: ["Red", "Black", "White"],
         date: 1716646345448,
         popular: true
     },
@@ -415,6 +444,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["One Size"],
+        colors: ["Red", "Black", "White"],
         date: 1716647345448,
         popular: true
     },
@@ -428,6 +458,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716645345448,
         popular: false
     },
@@ -440,6 +471,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716646445448,
         popular: false
     },
@@ -452,6 +484,7 @@ export const products = [
         category: "Kids",
         subCategory: "Winterwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716647545448,
         popular: false
     },
@@ -464,6 +497,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716648645448,
         popular: false
     },
@@ -476,6 +510,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716649745448,
         popular: false
     },
@@ -488,6 +523,7 @@ export const products = [
         category: "Women",
         subCategory: "Winterwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716650845448,
         popular: false
     },
@@ -500,6 +536,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716651945448,
         popular: false
     },
@@ -512,6 +549,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716653045448,
         popular: false
     },
@@ -524,6 +562,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716654145448,
         popular: false
     },
@@ -536,6 +575,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716655245448,
         popular: false
     },
@@ -548,6 +588,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716656345448,
         popular: false
     },
@@ -560,6 +601,7 @@ export const products = [
         category: "Kids",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716657445448,
         popular: false
     },
@@ -572,6 +614,7 @@ export const products = [
         category: "Kids",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716658545448,
         popular: false
     },
@@ -584,6 +627,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716659645448,
         popular: false
     },
@@ -596,6 +640,7 @@ export const products = [
         category: "Men",
         subCategory: "Winterwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716660745448,
         popular: false
     },
@@ -608,6 +653,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716661845448,
         popular: false
     },
@@ -620,6 +666,7 @@ export const products = [
         category: "Kids",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716662945448,
         popular: false
     },
@@ -632,6 +679,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716664045448,
         popular: false
     },
@@ -644,6 +692,7 @@ export const products = [
         category: "Women",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716665145448,
         popular: false
     },
@@ -656,7 +705,9 @@ export const products = [
         category: "Women",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L", "XL"],
-        date: 1716666245448, popular: false
+        colors: ["Red", "Black", "White"],
+        date: 1716666245448, 
+        popular: false
     },
     {
         _id: "51",
@@ -667,6 +718,7 @@ export const products = [
         category: "Women",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716667345448,
         popular: false
     },
@@ -679,6 +731,7 @@ export const products = [
         category: "Men",
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
+        colors: ["Red", "Black", "White"],
         date: 1716668445448,
         popular: false
     }

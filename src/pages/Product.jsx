@@ -15,6 +15,7 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+  const [color, setColor] = useState("");
 
   const fetchProductData = async () => {
     const selectedProduct = products.find((item) => item._id === productId);
@@ -78,21 +79,60 @@ const Product = () => {
             </h4>
             <p className="max-w-[600px]">{product.description}</p>
 
-            <div className="flex flex-col gap-4 my-4 mb-5 ">
-              <div className="flex gap-2">
-                {[...product.sizes]
-                  .sort((a, b) => {
-                    const order = ["S", "M", "L", "XL", "XXL"];
-                    return order.indexOf(a) - order.indexOf(b);
-                  })
-                  .map((item, index) => (
-                    <button key={item} onClick={() => setSize(item)}className={`${item === size ? "ring-1 ring-slate-900/20" : "ring-1 ring-slate-900/5"} medium-14 h-8 w-10 bg-[#8dd7e436] rounded`}>{item}</button>
-                  ))}
+            {/* SIZE SELECTION */}
+            <div className="flex flex-col gap-4 my-4 mb-5">
+              <div className="flex gap-2 items-center">
+                <span className="medium-14">Size:</span>
+                <div className="flex gap-2">
+                  {[...product.sizes]
+                    .sort((a, b) => {
+                      const order = ["S", "M", "L", "XL", "XXL"];
+                      return order.indexOf(a) - order.indexOf(b);
+                    })
+                    .map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => setSize(item)}
+                        className={`${
+                          item === size
+                            ? "ring-2 ring-secondary bg-secondary/10"
+                            : "ring-1 ring-slate-900/5"
+                        } medium-14 h-8 w-10 rounded`}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                </div>
               </div>
+
+              {/* COLOR SELECTION */}
+              {product.colors?.length > 0 && (
+                <div className="flex gap-2 items-center">
+                  <span className="medium-14">Color:</span>
+                  <div className="flex gap-2">
+                    {product.colors.map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => setColor(c)}
+                        title={c}
+                        className={`w-8 h-8 rounded-full ring-2 transition-transform duration-200 ${
+                          color === c
+                            ? "ring-secondary scale-110"
+                            : "ring-gray-300"
+                        }`}
+                        style={{ backgroundColor: c.toLowerCase() }}
+                      ></button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center gap-x-4">
-              <button onClick={() => addToCart(product._id, size)}className="btn-secondary !rounded-lg w-1/2 flexCenter gap-x-2 capitalise">
+              <button
+                onClick={() => addToCart(product._id, size, color)}
+                className="btn-secondary !rounded-lg w-1/2 flexCenter gap-x-2 capitalise"
+              >
                 Add To Cart <TbShoppingBagPlus />
               </button>
               <button className="btn-light !rounded-lg !py-3.5">
@@ -115,9 +155,12 @@ const Product = () => {
           </div>
         </div>
 
-         <ProductDescription />
-            <ProductFeatures />
-            <RelatedProducts category={product.category} subCategory={product.subCategory}/>
+        <ProductDescription />
+        <ProductFeatures />
+        <RelatedProducts
+          category={product.category}
+          subCategory={product.subCategory}
+        />
       </div>
 
       <hr className="my-3 w-3/3" />

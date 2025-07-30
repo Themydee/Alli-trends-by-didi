@@ -14,42 +14,42 @@ const PlaceOrder = () => {
     <div>
       <div className="bg-primary mb-16">
         <form className="max-padd-container py-10">
-          <div className="flex flex-col xl:flex-row gap-20 xl:gap-20">
-            <div className="flex flex-1 flex-col gap-3 text-[95%]">
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-10">
+            {/* LEFT SIDE: DELIVERY INFORMATION (8 columns out of 12) */}
+            <div className="xl:col-span-8 space-y-6">
               <Title title1={"Delivery "} title2={"Information"} />
+
               <div className="flex gap-3">
                 <input
                   type="text"
                   name="firstName"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
                   placeholder="First Name"
-                  required="true"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
-
                 <input
                   type="text"
                   name="lastName"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
                   placeholder="Last Name"
-                  required="true"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
               </div>
 
               <div className="flex gap-3">
                 <input
-                  type="text"
+                  type="email"
                   name="email"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
                   placeholder="Email Address"
-                  required="true"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
-
                 <input
                   type="text"
                   name="phone"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
-                  placeholder="Phone Numbeer"
-                  required="true"
+                  placeholder="Phone Number"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
               </div>
 
@@ -57,75 +57,75 @@ const PlaceOrder = () => {
                 <input
                   type="text"
                   name="address"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
                   placeholder="Address"
-                  required="true"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
-
                 <input
                   type="text"
                   name="city"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
                   placeholder="City"
-                  required="true"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
+              </div>
 
+              <div className="flex gap-3">
                 <input
                   type="text"
                   name="state"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
                   placeholder="State"
-                  required="true"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
-
                 <input
                   type="text"
                   name="country"
-                  className="ring-1 ring-slate-900/15 p-1 pl-3 rounded-sm bg-white outline-none w-1/2"
                   placeholder="Country"
-                  required="true"
+                  className="w-1/2 p-4 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary outline-none"
+                  required
                 />
               </div>
             </div>
 
-            <div className="my-6">
-              <h3 className="bold-20 mb-3">
-                Select <span className="text-secondary">Shipping</span> Location
-              </h3>
-              <Shipping />
-            </div>
+            {/* RIGHT SIDE: SHIPPING + TOTAL + PAYMENT (4 columns out of 12) */}
+            <div className="xl:col-span-4 space-y-8">
+              <div>
+                <h3 className="bold-20 mb-3">
+                  Select <span className="text-secondary">Shipping</span>{" "}
+                  Location
+                </h3>
+                <Shipping />
+              </div>
 
-            <div className="flex flex-col flex-1">
               <CartTotal showShipping={true} />
 
-              <div className="my-6">
-                <h3 className="bold-20 mb-5">
+              <div>
+                <h3 className="bold-20 mb-3">
                   Payment <span className="text-secondary">Method</span>
-                  <div className="flex gap-3">
-
-                    <div
-                      onClick={() => setMethod("pon")}
-                      className={`${
-                        method === "pon" ? "btn-dark" : "btn-white"
-                      } !py-1 text-xs cursor-pointer`}
-                    >
-                      Pay via Card
-                    </div>
-
-                     <div
-                      onClick={() => setMethod("pbt")}
-                      className={`${
-                        method === "pbt" ? "btn-dark" : "btn-white"
-                      } !py-1 text-xs cursor-pointer`}
-                    >
-                      Pay with Bank Transfer
-                    </div>
-                  </div>
                 </h3>
+                <div className="flex gap-3">
+                  <div
+                    onClick={() => setMethod("pon")}
+                    className={`${
+                      method === "pon" ? "btn-dark" : "btn-white"
+                    } !py-1 text-xs cursor-pointer`}
+                  >
+                    Pay via Card
+                  </div>
+                  <div
+                    onClick={() => setMethod("pbt")}
+                    className={`${
+                      method === "pbt" ? "btn-dark" : "btn-white"
+                    } !py-1 text-xs cursor-pointer`}
+                  >
+                    Pay with Bank Transfer
+                  </div>
+                </div>
               </div>
 
               <div>
-                <button type="submit" className="btn-secondary">
+                <button type="submit" className="btn-secondary w-full">
                   Place Order
                 </button>
               </div>

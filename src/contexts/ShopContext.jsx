@@ -15,53 +15,85 @@ const ShopContextProvider = (props) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const shippingLocations = [
-  { location: "Sango Toll Gate", price: 5000 },
-  { location: "Ojota Bus Stop", price: 2000 },
-  { location: "Lekki Phase 1", price: 4000, note: "Bigger packages attract additional fee" },
-  { location: "Ikorodu Garage", price: 2500 },
-  { location: "Ojuelegba", price: 1800 },
-  { location: "Uromi", price: 4500, note: "Bigger packages attract additional fee" },
-  { location: "Yaba Tech Gate", price: 1500 },
-  { location: "Ikeja Computer Village", price: 2200 },
-  { location: "Onitsha Main Market", price: 6000 },
-  { location: "Benin Ring Road", price: 5500, note: "Bigger items attract extra fee" },
-  { location: "Kano Sabon Gari", price: 7000 },
-  { location: "Enugu GRA", price: 5000 },
-  { location: "Jos Terminus", price: 6500 },
-  { location: "Ibadan Challenge", price: 3000 },
-  { location: "Abeokuta Panseke", price: 2800 },
-  { location: "Ogbomosho Town Hall", price: 3200 },
-  { location: "Calabar Marina", price: 7500 },
-  { location: "Zaria Ahmadu Bello Way", price: 8000 },
-  { location: "Owerri Control Post", price: 6000, note: "Bigger packages attract additional fee" },
-  { location: "Ilorin Post Office", price: 3500, note: "Pay to driver" },
-];
+    {
+      group: "Lagos Mainland 1 (Agege, Ogba)",
+      price: 2000,
+      locations: [
+        "Abule Egba",
+        "Omojoo",
+        "Orile Agege",
+        "Alakuko",
+        "Iyana Ipaja",
+        "Egbeda",
+        "Dopemu",
+        "Magodo",
+        "Iju Ishaga",
+        "Maryland",
+      ],
+    },
+    {
+      group: "Lagos Mainland 2 (Mushin, Festac, etc.)",
+      price: 3000,
+      locations: [
+        "Mile 2",
+        "Ikotun",
+        "Isheri",
+        "Oshodi",
+        "Ketu",
+        "Yaba",
+        "Surulere",
+        "Shomolu",
+      ],
+    },
+    {
+      group: "Lagos Mainland 3 (Ojo, Ikorodu)",
+      price: 5000,
+      locations: ["Ojo", "Okoko", "Iyana Iba", "Ikorodu"],
+    },
+    {
+      group: "Lagos Island 1 (VI, CMS, Obalende, etc.)",
+      price: 6000,
+      locations: ["VI", "Lekki", "Obalende", "CMS", "Ikoyi", "Ajah"],
+    },
+    {
+      group: "Lagos Island 2 (Ajah, Sangotedo)",
+      price: 2500,
+      locations: ["Ajah", "Sangotedo"],
+    },
+  ];
 
   const getTotalWithShipping = () => {
     const shipping = selectedLocation?.price || 0;
     return getCartAmount() + shipping;
   };
 
-  const addToCart = async (itemId, size) => {
+  const addToCart = async (itemId, size, color) => {
     if (!size) {
       toast.error("Please select a size");
       return;
     }
 
+    if (!color) {
+      toast.error("Please select a color");
+      return;
+    }
+
     let cartData = structuredClone(cartItem);
 
-    if (cartData[itemId]) {
-      if (cartData[itemId][size]) {
-        cartData[itemId][size] += 1;
-      } else {
-        cartData[itemId][size] = 1;
-      }
-    } else {
+    if (!cartData[itemId]) {
       cartData[itemId] = {};
-      cartData[itemId][size] = 1;
+    }
+
+    const variantKey = `${size}_${color}`;
+
+    if (cartData[itemId][variantKey]) {
+      cartData[itemId][variantKey] += 1;
+    } else {
+      cartData[itemId][variantKey] = 1;
     }
 
     setCartItem(cartData);
+    toast.success("Product added to cart successfully");
   };
 
   const getCartCount = () => {
@@ -78,19 +110,20 @@ const ShopContextProvider = (props) => {
     return totalCount;
   };
 
-  const removeFromCart = (itemId, size) => {
-    const cartData = { ...cartItem };
+  const removeFromCart = (itemId, variantKey) => {
+  const cartData = { ...cartItem };
 
-    if (cartData[itemId] && cartData[itemId][size]) {
-      delete cartData[itemId][size];
+  if (cartData[itemId] && cartData[itemId][variantKey]) {
+    delete cartData[itemId][variantKey];
 
-      if (Object.keys(cartData[itemId]).length === 0) {
-        delete cartData[itemId];
-      }
+    if (Object.keys(cartData[itemId]).length === 0) {
+      delete cartData[itemId];
     }
+  }
 
-    setCartItem(cartData);
-  };
+  setCartItem(cartData);
+};
+
 
   const getCartAmount = () => {
     let totalAmount = 0;
