@@ -11,6 +11,7 @@ import Loading from "./components/Loading";
 import PlaceOrder from "./pages/PlaceOrder.jsx";
 import Login from "./pages/Login.jsx";
 import Orders from "./pages/Orders.jsx";
+import ThankYou from "./pages/ThankYouForShopping.jsx"
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/login" element={<Login />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/thanks" element={<ThankYou />} />
       </Routes>
     </main>
   );

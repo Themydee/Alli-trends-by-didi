@@ -26,7 +26,7 @@ const CartTotal = ({ showShipping = false }) => {
         <p className='h5'>{currency} {getCartAmount()}</p>
       </div>
 
-      {showShipping && (
+      {/* {showShipping && (
         <>
           <div className='flexBetween pt-3'>
             <h5 className='h5'>Shipping:</h5>
@@ -45,7 +45,7 @@ const CartTotal = ({ showShipping = false }) => {
 
           <hr className='mx-auto h-[1px] w-full bg-gray-900/10 my-2' />
         </>
-      )}
+      )} */}
 
       <div className='flexBetween pt-3'>
         <h5 className='h5'>Total:</h5>

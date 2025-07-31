@@ -33,6 +33,22 @@ const Product = () => {
   if (!product) {
     return <div>Loading...</div>;
   }
+
+  // Helper function to get sizes - handles both string arrays and object arrays
+  const getSizes = () => {
+    if (!product.sizes || product.sizes.length === 0) return [];
+    
+    // If sizes is an array of objects with size property
+    if (typeof product.sizes[0] === 'object' && product.sizes[0].size) {
+      return product.sizes.map(sizeObj => sizeObj.size);
+    }
+    
+    // If sizes is already an array of strings
+    return product.sizes;
+  };
+
+  const availableSizes = getSizes();
+
   return (
     <div>
       <div className="max-padd-container mt-3">
@@ -79,40 +95,42 @@ const Product = () => {
             </h4>
             <p className="max-w-[600px]">{product.description}</p>
 
-            {/* SIZE SELECTION */}
+            {/* SIZE SELECTION - FIXED */}
             <div className="flex flex-col gap-4 my-4 mb-5">
-              <div className="flex gap-2 items-center">
-                <span className="medium-14">Size:</span>
-                <div className="flex gap-2">
-                  {[...product.sizes]
-                    .sort((a, b) => {
-                      const order = ["S", "M", "L", "XL", "XXL"];
-                      return order.indexOf(a) - order.indexOf(b);
-                    })
-                    .map((item) => (
-                      <button
-                        key={item}
-                        onClick={() => setSize(item)}
-                        className={`${
-                          item === size
-                            ? "ring-2 ring-secondary bg-secondary/10"
-                            : "ring-1 ring-slate-900/5"
-                        } medium-14 h-8 w-10 rounded`}
-                      >
-                        {item}
-                      </button>
-                    ))}
+              {availableSizes.length > 0 && (
+                <div className="flex gap-2 items-center">
+                  <span className="medium-14">Size:</span>
+                  <div className="flex gap-2">
+                    {[...availableSizes]
+                      .sort((a, b) => {
+                        const order = ["S", "M", "L", "XL", "XXL"];
+                        return order.indexOf(a) - order.indexOf(b);
+                      })
+                      .map((sizeValue, index) => (
+                        <button
+                          key={`${sizeValue}-${index}`} // Fixed: unique key
+                          onClick={() => setSize(sizeValue)}
+                          className={`${
+                            sizeValue === size
+                              ? "ring-2 ring-secondary bg-secondary/10"
+                              : "ring-1 ring-slate-900/5"
+                          } medium-14 h-8 w-10 rounded`}
+                        >
+                          {sizeValue} {/* Fixed: render string value, not object */}
+                        </button>
+                      ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* COLOR SELECTION */}
               {product.colors?.length > 0 && (
                 <div className="flex gap-2 items-center">
                   <span className="medium-14">Color:</span>
                   <div className="flex gap-2">
-                    {product.colors.map((c) => (
+                    {product.colors.map((c, index) => (
                       <button
-                        key={c}
+                        key={`${c}-${index}`} // Fixed: unique key with index
                         onClick={() => setColor(c)}
                         title={c}
                         className={`w-8 h-8 rounded-full ring-2 transition-transform duration-200 ${

@@ -14,6 +14,7 @@ const Cart = () => {
     getCartCount,
     navigate,
     removeFromCart,
+    updateQuantity,
   } = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
@@ -43,27 +44,21 @@ const Cart = () => {
     }
   }, [cartItem, products]);
 
-  const updateQuantity = (id, size, value) => {
-    const updated = { ...cartItem };
-    if (updated[id]) {
-      updated[id][size] = value;
-    }
-    setQuantities((prev) => ({ ...prev, [`${id}-${size}`]: value }));
-  };
+  const increment = (id, size, color) => {
+    const key = `${id}-${size}_${color}`;
+    const newValue = (quantities[key] || 0) + 1;
 
-  const increment = (id, size) => {
-    const key = `${id}-${size}`;
-    const newValue = quantities[key] + 1;
     setQuantities((prev) => ({ ...prev, [key]: newValue }));
-    updateQuantity(id, size, newValue);
+    updateQuantity(id, size, color, newValue);
   };
 
-  const decrement = (id, size) => {
-    const key = `${id}-${size}`;
+  const decrement = (id, size, color) => {
+    const key = `${id}-${size}_${color}`;
     if (quantities[key] > 1) {
       const newValue = quantities[key] - 1;
+
       setQuantities((prev) => ({ ...prev, [key]: newValue }));
-      updateQuantity(id, size, newValue);
+      updateQuantity(id, size, color, newValue);
     }
   };
 
@@ -89,6 +84,7 @@ const Cart = () => {
               (product) => product._id === item._id
             );
             const key = `${item._id}-${item.size}_${item.color}`;
+            if(!productData) return null;
 
             return (
               <div key={key} className="rounded-lg bg-white p-4 mb-4 shadow-sm">
@@ -105,7 +101,9 @@ const Cart = () => {
                         {productData.name}
                       </h5>
                       <FaRegWindowClose
-                        onClick={() => removeFromCart(item._id, item.size, 0)}
+                        onClick={() =>
+                          removeFromCart(item._id, `${item.size}_${item.color}`)
+                        }
                         className="cursor-pointer text-secondary"
                       />
                     </div>
@@ -128,14 +126,17 @@ const Cart = () => {
                     <div className="flex items-center justify-between w-full mt-2">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => decrement(item._id, item.size)}
-                          className="p-1.5 bg-white text-secondary rounded-full shadow-md"
+                          onClick={() =>
+                            decrement(item._id, item.size, item.color)
+                          }
                         >
                           <FaMinus className="text-xs" />
                         </button>
                         <p>{quantities[key]}</p>
                         <button
-                          onClick={() => increment(item._id, item.size)}
+                          onClick={() =>
+                            increment(item._id, item.size, item.color)
+                          }
                           className="p-1.5 bg-white text-secondary rounded-full shadow-md"
                         >
                           <FaPlus className="text-xs" />

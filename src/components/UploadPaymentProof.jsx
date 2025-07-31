@@ -2,20 +2,22 @@
 import React, { useState } from "react";
 import { FaUpload } from "react-icons/fa6";
 
-const UploadPaymentProof = ({ onFileChange }) => {
+const UploadPaymentProof = ({ onUpload }) => {
   const [fileName, setFileName] = useState("");
 
   const handleChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setFileName(file.name);
-      onFileChange(file);
+      onUpload(file); // 👈 renamed from onFileChange
     }
   };
 
   return (
     <div className="bg-white p-4 mt-4 border rounded-lg shadow-sm">
-      <h3 className="text-lg font-semibold mb-2 text-secondary">Upload Proof of Payment</h3>
+      <h3 className="text-lg font-semibold mb-2 text-secondary">
+        Upload Proof of Payment
+      </h3>
 
       <label
         htmlFor="payment-proof"
@@ -33,10 +35,14 @@ const UploadPaymentProof = ({ onFileChange }) => {
       />
 
       {fileName && (
-        <p className="mt-2 text-sm text-green-600">Selected File: {fileName}</p>
+        <p className="mt-2 text-sm text-green-600">
+          Selected File: {fileName}
+        </p>
       )}
 
-      <p className="text-xs text-gray-500 mt-1">Accepted formats: JPG, PNG, PDF</p>
+      <p className="text-xs text-gray-500 mt-1">
+        Accepted formats: JPG, PNG, PDF
+      </p>
     </div>
   );
 };
