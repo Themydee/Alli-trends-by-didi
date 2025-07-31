@@ -13,7 +13,7 @@ const PlaceOrder = () => {
   const {
     navigate,
     token,
-    cartItems,
+    cartItem,
     setCartItem,
     getCartAmount,
     products,
@@ -81,14 +81,14 @@ const PlaceOrder = () => {
 
     // Prepare orderItems array
     const orderItems = [];
-    for (const productId in cartItems) {
-      for (const variantKey in cartItems[productId]) {
-        const quantity = cartItems[productId][variantKey];
+    for (const productId in cartItem) {
+      for (const variantKey in cartItem[productId]) {
+        const quantity = cartItem[productId][variantKey];
         if (quantity > 0) {
           const product = products.find((p) => p._id === productId);
           if (product) {
             orderItems.push({
-              _id: product._id,
+              prductId: product._id,
               title: product.title,
               image: product.image,
               price: product.price,
