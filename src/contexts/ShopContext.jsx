@@ -83,6 +83,14 @@ const ShopContextProvider = (props) => {
 
   const variantKey = `${size}`; // removed color
 
+   const product = products.find((p) => p._id === itemId);
+  const sizeObj = product?.sizes.find((s) => s.size === size);
+
+  if (!sizeObj || sizeObj.quantity === 0) {
+    toast.error(`${size} is out of stock`);
+    return;
+  }
+
   if (cartData[itemId][variantKey]) {
     cartData[itemId][variantKey] += 1;
   } else {

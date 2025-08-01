@@ -28,6 +28,14 @@ const [variantQty, setVariantQty] = useState(null);
     }
   };
 
+  const handleSizeChange = (selectedSize) => {
+  setSize(selectedSize);
+  const selectedSizeObj = product.sizes.find(
+    (s) => s.size.toLowerCase() === selectedSize.toLowerCase()
+  );
+  setVariantQty(selectedSizeObj ? selectedSizeObj.quantity : 0);
+};
+
   useEffect(() => {
     fetchProductData();
   }, [productId, products]);
@@ -157,15 +165,16 @@ const [variantQty, setVariantQty] = useState(null);
 ) : null}
 
 <div className="flex items-center gap-x-4">
-  <button
+ <button
   onClick={() => addToCart(product._id, size)}
-    disabled={!size || variantQty === 0}
-    className={`btn-secondary !rounded-lg  flexCenter gap-x-2 capitalize ${
-      (!size || variantQty === 0) && "opacity-50 cursor-not-allowed"
-    }`}
-  >
-    Add To Cart <TbShoppingBagPlus />
-  </button>
+  disabled={!size || variantQty === 0}
+  className={`btn-secondary !rounded-lg flexCenter gap-x-2 capitalize ${
+    (!size || variantQty === 0) ? "opacity-50 cursor-not-allowed" : ""
+  }`}
+>
+  Add To Cart <TbShoppingBagPlus />
+</button>
+
 
   <button className="btn-light !rounded-lg !py-3.5">
     <FaHeart />
