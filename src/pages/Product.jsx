@@ -16,8 +16,7 @@ const Product = () => {
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
   const [stockStatus, setStockStatus] = useState("");
-const [variantQty, setVariantQty] = useState(null);
-
+  const [variantQty, setVariantQty] = useState(null);
 
   const fetchProductData = async () => {
     const selectedProduct = products.find((item) => item._id === productId);
@@ -29,35 +28,33 @@ const [variantQty, setVariantQty] = useState(null);
   };
 
   const handleSizeChange = (selectedSize) => {
-  setSize(selectedSize);
-  const selectedSizeObj = product.sizes.find(
-    (s) => s.size.toLowerCase() === selectedSize.toLowerCase()
-  );
-  setVariantQty(selectedSizeObj ? selectedSizeObj.quantity : 0);
-};
+    setSize(selectedSize);
+    const selectedSizeObj = product.sizes.find(
+      (s) => s.size.toLowerCase() === selectedSize.toLowerCase()
+    );
+    setVariantQty(selectedSizeObj ? selectedSizeObj.quantity : 0);
+  };
 
   useEffect(() => {
     fetchProductData();
   }, [productId, products]);
 
   useEffect(() => {
-  if (!size || !product?.variants) return;
+    if (!size || !product?.variants) return;
 
-  const matchedVariant = product.variants.find((v) => v.size === size);
+    const matchedVariant = product.variants.find((v) => v.size === size);
 
-  if (!matchedVariant) {
-    setStockStatus("Variant not available");
-    setVariantQty(0);
-  } else if (matchedVariant.quantity === 0) {
-    setStockStatus("Size out of stock");
-    setVariantQty(0);
-  } else {
-    setStockStatus("");
-    setVariantQty(matchedVariant.quantity);
-  }
-}, [size, product]); // ✅ Remove `color` from dependencies too
-
-
+    if (!matchedVariant) {
+      setStockStatus("Variant not available");
+      setVariantQty(0);
+    } else if (matchedVariant.quantity === 0) {
+      setStockStatus("Size out of stock");
+      setVariantQty(0);
+    } else {
+      setStockStatus("");
+      setVariantQty(matchedVariant.quantity);
+    }
+  }, [size, product]); // ✅ Remove `color` from dependencies too
 
   if (!product) {
     return <div>Loading...</div>;
@@ -66,19 +63,17 @@ const [variantQty, setVariantQty] = useState(null);
   // Helper function to get sizes - handles both string arrays and object arrays
   const getSizes = () => {
     if (!product.sizes || product.sizes.length === 0) return [];
-    
+
     // If sizes is an array of objects with size property
-    if (typeof product.sizes[0] === 'object' && product.sizes[0].size) {
-      return product.sizes.map(sizeObj => sizeObj.size);
+    if (typeof product.sizes[0] === "object" && product.sizes[0].size) {
+      return product.sizes.map((sizeObj) => sizeObj.size);
     }
-    
+
     // If sizes is already an array of strings
     return product.sizes;
   };
 
-  const isProductOutOfStock =
-  product?.sizes?.every((s) => s.quantity === 0);
-
+  const isProductOutOfStock = product?.sizes?.every((s) => s.quantity === 0);
 
   const availableSizes = getSizes();
 
@@ -147,9 +142,10 @@ const [variantQty, setVariantQty] = useState(null);
                             sizeValue === size
                               ? "ring-2 ring-secondary bg-secondary/10"
                               : "ring-1 ring-slate-900/5"
-                          } medium-14 h-8 w-10 rounded`}
+                          } medium-14 h-8 w-20 rounded`}
                         >
-                          {sizeValue} {/* Fixed: render string value, not object */}
+                          {sizeValue}{" "}
+                          {/* Fixed: render string value, not object */}
                         </button>
                       ))}
                   </div>
@@ -158,29 +154,31 @@ const [variantQty, setVariantQty] = useState(null);
             </div>
 
             <div className="flex items-center gap-x-4">
-             {isProductOutOfStock ? (
-  <p className="text-red-600 font-semibold">Product is out of stock</p>
-) : stockStatus === "Size out of stock" ? (
-  <p className="text-yellow-500">Selected size is out of stock</p>
-) : null}
+              {isProductOutOfStock ? (
+                <p className="text-red-600 font-semibold">
+                  Product is out of stock
+                </p>
+              ) : stockStatus === "Size out of stock" ? (
+                <p className="text-yellow-500">Selected size is out of stock</p>
+              ) : null}
 
-<div className="flex items-center gap-x-4">
- <button
-  onClick={() => addToCart(product._id, size)}
-  disabled={!size || variantQty === 0}
-  className={`btn-secondary !rounded-lg flexCenter gap-x-2 capitalize ${
-    (!size || variantQty === 0) ? "opacity-50 cursor-not-allowed" : ""
-  }`}
->
-  Add To Cart <TbShoppingBagPlus />
-</button>
+              <div className="flex items-center gap-x-4">
+                <button
+                  onClick={() => addToCart(product._id, size)}
+                  disabled={!size || variantQty === 0}
+                  className={`btn-secondary !rounded-lg flexCenter gap-x-2 capitalize ${
+                    !size || variantQty === 0
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
+                >
+                  Add To Cart <TbShoppingBagPlus />
+                </button>
 
-
-  <button className="btn-light !rounded-lg !py-3.5">
-    <FaHeart />
-  </button>
-</div>
-
+                <button className="btn-light !rounded-lg !py-3.5">
+                  <FaHeart />
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center gap-x-2 mt-3 ">

@@ -33,8 +33,7 @@ const Cart = () => {
               size,
               quantity: cartItem[items][variantKey],
             });
-            initialQuantities[`${items}-${size}`] =
-              cartItem[items][variantKey];
+            initialQuantities[`${items}-${size}`] = cartItem[items][variantKey];
           }
         }
       }
@@ -100,19 +99,28 @@ const Cart = () => {
                         {productData.name}
                       </h5>
                       <FaRegWindowClose
-                        onClick={() =>
-                          removeFromCart(item._id, item.size) // removed color
+                        onClick={
+                          () => removeFromCart(item._id, item.size) // removed color
                         }
                         className="cursor-pointer text-secondary"
                       />
                     </div>
 
-                    <div className="text-sm text-gray-500 mt-1">
-                      Size:{" "}
-                      <span className="text-black font-medium">
-                        {item.size}
-                      </span>
-                    </div>
+                    {item.size === "wholesale" ? (
+                      <div className="mt-3 flex items-center gap-2 text-sm">
+                        <p className="text-gray-500">Type:</p>
+                        <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium">
+                          🛒 Wholesale
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-gray-500 mt-1">
+                        Size:{" "}
+                        <span className="text-black font-medium">
+                          {item.size}
+                        </span>
+                      </div>
+                    )}
 
                     <div className="flex items-center justify-between w-full mt-2">
                       <div className="flex items-center gap-2">

@@ -69,28 +69,66 @@ const ShopContextProvider = (props) => {
     return getCartAmount() + shipping;
   };
 
-  const addToCart = async (itemId, size) => {
-  if (!size) {
-    toast.error("Please select a size");
+  const addToCart = async (itemId, size = null) => {
+  const product = products.find((p) => p._id === itemId);
+
+  if (!product) {
+    toast.error("Product not found");
     return;
   }
 
-  let cartData = structuredClone(cartItem);
+  const cartData = structuredClone(cartItem);
 
   if (!cartData[itemId]) {
     cartData[itemId] = {};
   }
 
-  const variantKey = `${size}`; // removed color
+  // Wholesale product - no size required
+  if (product.isWholesale) {
+    const variantKey = "wholesale";
 
-   const product = products.find((p) => p._id === itemId);
+    if (cartData[itemId][variantKey]) {
+      cartData[itemId][variantKey] += 1;
+    } else {
+      cartData[itemId][variantKey] = 1;
+    }
+
+    setCartItem(cartData);
+    toast.success("Wholesale product added to cart");
+
+    // Save to backend
+    if (token) {
+      try {
+        await axios.post(
+          server_url + "/api/cart/add",
+          { itemId, wholesale: true },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        toast.error("Failed to save to cart");
+      }
+    }
+
+    return;
+  }
+
+  // Retail product with sizes
+  if (!size) {
+    toast.error("Please select a size");
+    return;
+  }
+
   const sizeObj = product?.sizes.find((s) => s.size === size);
-
   if (!sizeObj || sizeObj.quantity === 0) {
     toast.error(`${size} is out of stock`);
     return;
   }
 
+  const variantKey = `${size}`;
   if (cartData[itemId][variantKey]) {
     cartData[itemId][variantKey] += 1;
   } else {
@@ -104,7 +142,7 @@ const ShopContextProvider = (props) => {
     try {
       await axios.post(
         server_url + "/api/cart/add",
-        { itemId, size }, // removed color
+        { itemId, size },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -112,7 +150,6 @@ const ShopContextProvider = (props) => {
         }
       );
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   }
