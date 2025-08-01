@@ -78,7 +78,7 @@ const Collection = () => {
           <div>
             <h5 className="h5 mb-4">Categories</h5>
             <div className="flex flex-col gap-2 text-sm-font-light">
-              {[ "Wholesale Women", "Wholesale Unisex", "Single Sale Women", "Single Sale Unisex"].map((cat) => (
+              {[ "Wholesale Bubu", "Wholesale Dress", "Wholesale Unisex", "Single Sale Bubu", "Single Sale Dress", "Single Sale Unisex"].map((cat) => (
                 <label key={cat} className="flex gap-2 medium-14 text-gray-30">
                   <input
                     onChange={(e) => toggleFilter(e.target.value, setCategory)}
@@ -95,7 +95,7 @@ const Collection = () => {
           <div>
             <h5 className="h5 pt-8 mb-4">Wears</h5>
             <div className="flex flex-col gap-2 text-sm-font-light">
-              {["Bubu Gowns", "2pcs wears", "Dresses"].map((subCat) => (
+              {["Bubu Gown", "2pcs wears", "Dresses"].map((subCat) => (
                 <label
                   key={subCat}
                   className="flex gap-2 medium-14 text-gray-30"
