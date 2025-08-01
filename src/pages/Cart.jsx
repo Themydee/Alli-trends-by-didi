@@ -27,14 +27,13 @@ const Cart = () => {
       for (const items in cartItem) {
         for (const variantKey in cartItem[items]) {
           if (cartItem[items][variantKey] > 0) {
-            const [size, color] = variantKey.split("_");
+            const size = variantKey; // no longer split by color
             tempData.push({
               _id: items,
               size,
-              color,
               quantity: cartItem[items][variantKey],
             });
-            initialQuantities[`${items}-${size}_${color}`] =
+            initialQuantities[`${items}-${size}`] =
               cartItem[items][variantKey];
           }
         }
@@ -44,21 +43,21 @@ const Cart = () => {
     }
   }, [cartItem, products]);
 
-  const increment = (id, size, color) => {
-    const key = `${id}-${size}_${color}`;
+  const increment = (id, size) => {
+    const key = `${id}-${size}`;
     const newValue = (quantities[key] || 0) + 1;
 
     setQuantities((prev) => ({ ...prev, [key]: newValue }));
-    updateQuantity(id, size, color, newValue);
+    updateQuantity(id, size, newValue); // removed color
   };
 
-  const decrement = (id, size, color) => {
-    const key = `${id}-${size}_${color}`;
+  const decrement = (id, size) => {
+    const key = `${id}-${size}`;
     if (quantities[key] > 1) {
       const newValue = quantities[key] - 1;
 
       setQuantities((prev) => ({ ...prev, [key]: newValue }));
-      updateQuantity(id, size, color, newValue);
+      updateQuantity(id, size, newValue); // removed color
     }
   };
 
@@ -83,8 +82,8 @@ const Cart = () => {
             const productData = products.find(
               (product) => product._id === item._id
             );
-            const key = `${item._id}-${item.size}_${item.color}`;
-            if(!productData) return null;
+            const key = `${item._id}-${item.size}`;
+            if (!productData) return null;
 
             return (
               <div key={key} className="rounded-lg bg-white p-4 mb-4 shadow-sm">
@@ -102,41 +101,27 @@ const Cart = () => {
                       </h5>
                       <FaRegWindowClose
                         onClick={() =>
-                          removeFromCart(item._id, `${item.size}_${item.color}`)
+                          removeFromCart(item._id, item.size) // removed color
                         }
                         className="cursor-pointer text-secondary"
                       />
                     </div>
 
-                    <div className="flex gap-3 text-sm text-gray-500 mt-1">
-                      <p>
-                        Size:{" "}
-                        <span className="text-black font-medium">
-                          {item.size}
-                        </span>
-                      </p>
-                      <p>
-                        Color:{" "}
-                        <span className="text-black font-medium">
-                          {item.color}
-                        </span>
-                      </p>
+                    <div className="text-sm text-gray-500 mt-1">
+                      Size:{" "}
+                      <span className="text-black font-medium">
+                        {item.size}
+                      </span>
                     </div>
 
                     <div className="flex items-center justify-between w-full mt-2">
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() =>
-                            decrement(item._id, item.size, item.color)
-                          }
-                        >
+                        <button onClick={() => decrement(item._id, item.size)}>
                           <FaMinus className="text-xs" />
                         </button>
                         <p>{quantities[key]}</p>
                         <button
-                          onClick={() =>
-                            increment(item._id, item.size, item.color)
-                          }
+                          onClick={() => increment(item._id, item.size)}
                           className="p-1.5 bg-white text-secondary rounded-full shadow-md"
                         >
                           <FaPlus className="text-xs" />

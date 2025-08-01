@@ -69,78 +69,74 @@ const ShopContextProvider = (props) => {
     return getCartAmount() + shipping;
   };
 
-  const addToCart = async (itemId, size, color) => {
-    if (!size) {
-      toast.error("Please select a size");
-      return;
+  const addToCart = async (itemId, size) => {
+  if (!size) {
+    toast.error("Please select a size");
+    return;
+  }
+
+  let cartData = structuredClone(cartItem);
+
+  if (!cartData[itemId]) {
+    cartData[itemId] = {};
+  }
+
+  const variantKey = `${size}`; // removed color
+
+  if (cartData[itemId][variantKey]) {
+    cartData[itemId][variantKey] += 1;
+  } else {
+    cartData[itemId][variantKey] = 1;
+  }
+
+  setCartItem(cartData);
+  toast.success("Product added to cart successfully");
+
+  if (token) {
+    try {
+      await axios.post(
+        server_url + "/api/cart/add",
+        { itemId, size }, // removed color
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
     }
+  }
+};
 
-    if (!color) {
-      toast.error("Please select a color");
-      return;
+
+  const updateQuantity = async (itemId, size, quantity) => {
+  const variantKey = `${size}`; // removed color
+  let cartData = structuredClone(cartItem);
+
+  if (!cartData[itemId] || !cartData[itemId][variantKey]) return;
+
+  cartData[itemId][variantKey] = quantity;
+  setCartItem(cartData);
+
+  if (token) {
+    try {
+      await axios.post(
+        server_url + "/api/cart/update",
+        { itemId, size, quantity }, // removed color
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+      toast.error("Could not update cart.");
     }
-
-    let cartData = structuredClone(cartItem);
-
-    if (!cartData[itemId]) {
-      cartData[itemId] = {};
-    }
-
-    const variantKey = `${size}_${color}`;
-
-    if (cartData[itemId][variantKey]) {
-      cartData[itemId][variantKey] += 1;
-    } else {
-      cartData[itemId][variantKey] = 1;
-    }
-
-    setCartItem(cartData);
-    toast.success("Product added to cart successfully");
-
-    if (token) {
-      try {
-        await axios.post(
-          server_url + "/api/cart/add",
-          { itemId, size, color },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message);
-      }
-    }
-  };
-
-  const updateQuantity = async (itemId, size, color, quantity) => {
-    const variantKey = `${size}_${color}`;
-    let cartData = structuredClone(cartItem);
-
-    if (!cartData[itemId] || !cartData[itemId][variantKey]) return;
-
-    cartData[itemId][variantKey] = quantity;
-    setCartItem(cartData);
-
-    if (token) {
-      try {
-        await axios.post(
-          server_url + "/api/cart/update",
-          { itemId, size, color, quantity },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.error("Failed to update quantity:", error);
-        toast.error("Could not update cart.");
-      }
-    }
-  };
+  }
+};
 
   const getUserCart = async (token) => {
     try {
@@ -181,39 +177,35 @@ const ShopContextProvider = (props) => {
     return totalCount;
   };
 
-  const removeFromCart = async (productId, variantKey) => {
-    const [size, color] = variantKey.split("_");
+  const removeFromCart = async (productId, size) => {
+  try {
+    await axios.delete(server_url + "/api/cart/remove", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        itemId: productId,
+        size,
+      },
+    });
 
-    try {
-  
-      await axios.delete( server_url + '/api/cart/remove', {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-        data: {
-          itemId: productId,
-          size,
-          color,
-        },
-      });
+    // ✅ Local update if backend succeeds
+    const updatedCart = { ...cartItem };
+    if (updatedCart[productId] && updatedCart[productId][size]) {
+      delete updatedCart[productId][size];
 
-      // ✅ Local update if backend succeeds
-      const updatedCart = { ...cartItem };
-      if (updatedCart[productId] && updatedCart[productId][variantKey]) {
-        delete updatedCart[productId][variantKey];
-
-        if (Object.keys(updatedCart[productId]).length === 0) {
-          delete updatedCart[productId];
-        }
+      if (Object.keys(updatedCart[productId]).length === 0) {
+        delete updatedCart[productId];
       }
-
-      setCartItem(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } catch (error) {
-      console.error("Remove from cart failed:", error);
-      toast.error("Failed to remove item from cart.");
     }
-  };
+
+    setCartItem(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  } catch (error) {
+    console.error("Remove from cart failed:", error);
+    toast.error("Failed to remove item from cart.");
+  }
+};
 
   const getCartAmount = () => {
     let totalAmount = 0;

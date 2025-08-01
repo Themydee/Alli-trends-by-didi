@@ -15,7 +15,9 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
-  const [color, setColor] = useState("");
+  const [stockStatus, setStockStatus] = useState("");
+const [variantQty, setVariantQty] = useState(null);
+
 
   const fetchProductData = async () => {
     const selectedProduct = products.find((item) => item._id === productId);
@@ -29,6 +31,25 @@ const Product = () => {
   useEffect(() => {
     fetchProductData();
   }, [productId, products]);
+
+  useEffect(() => {
+  if (!size || !product?.variants) return;
+
+  const matchedVariant = product.variants.find((v) => v.size === size);
+
+  if (!matchedVariant) {
+    setStockStatus("Variant not available");
+    setVariantQty(0);
+  } else if (matchedVariant.quantity === 0) {
+    setStockStatus("Size out of stock");
+    setVariantQty(0);
+  } else {
+    setStockStatus("");
+    setVariantQty(matchedVariant.quantity);
+  }
+}, [size, product]); // ✅ Remove `color` from dependencies too
+
+
 
   if (!product) {
     return <div>Loading...</div>;
@@ -46,6 +67,10 @@ const Product = () => {
     // If sizes is already an array of strings
     return product.sizes;
   };
+
+  const isProductOutOfStock =
+  product?.sizes?.every((s) => s.quantity === 0);
+
 
   const availableSizes = getSizes();
 
@@ -122,40 +147,31 @@ const Product = () => {
                   </div>
                 </div>
               )}
-
-              {/* COLOR SELECTION */}
-              {product.colors?.length > 0 && (
-                <div className="flex gap-2 items-center">
-                  <span className="medium-14">Color:</span>
-                  <div className="flex gap-2">
-                    {product.colors.map((c, index) => (
-                      <button
-                        key={`${c}-${index}`} // Fixed: unique key with index
-                        onClick={() => setColor(c)}
-                        title={c}
-                        className={`w-8 h-8 rounded-full ring-2 transition-transform duration-200 ${
-                          color === c
-                            ? "ring-secondary scale-110"
-                            : "ring-gray-300"
-                        }`}
-                        style={{ backgroundColor: c.toLowerCase() }}
-                      ></button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="flex items-center gap-x-4">
-              <button
-                onClick={() => addToCart(product._id, size, color)}
-                className="btn-secondary !rounded-lg w-1/2 flexCenter gap-x-2 capitalise"
-              >
-                Add To Cart <TbShoppingBagPlus />
-              </button>
-              <button className="btn-light !rounded-lg !py-3.5">
-                <FaHeart />
-              </button>
+             {isProductOutOfStock ? (
+  <p className="text-red-600 font-semibold">Product is out of stock</p>
+) : stockStatus === "Size out of stock" ? (
+  <p className="text-yellow-500">Selected size is out of stock</p>
+) : null}
+
+<div className="flex items-center gap-x-4">
+  <button
+  onClick={() => addToCart(product._id, size)}
+    disabled={!size || variantQty === 0}
+    className={`btn-secondary !rounded-lg  flexCenter gap-x-2 capitalize ${
+      (!size || variantQty === 0) && "opacity-50 cursor-not-allowed"
+    }`}
+  >
+    Add To Cart <TbShoppingBagPlus />
+  </button>
+
+  <button className="btn-light !rounded-lg !py-3.5">
+    <FaHeart />
+  </button>
+</div>
+
             </div>
 
             <div className="flex items-center gap-x-2 mt-3 ">

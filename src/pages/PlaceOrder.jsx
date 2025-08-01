@@ -80,34 +80,37 @@ const PlaceOrder = () => {
     if (!uploadedUrl) return;
 
     // Prepare orderItems array
-    const orderItems = [];
-    for (const productId in cartItem) {
-      for (const variantKey in cartItem[productId]) {
-        const quantity = cartItem[productId][variantKey];
-        if (quantity > 0) {
-          const product = products.find((p) => p._id === productId);
-          if (product) {
-            orderItems.push({
-              prductId: product._id,
-              title: product.title,
-              image: product.image,
-              price: product.price,
-              size: variantKey,
-              quantity,
-            });
-          }
-        }
+    // Updated orderItems logic without color
+const orderItems = [];
+for (const productId in cartItem) {
+  for (const variantKey in cartItem[productId]) {
+    const quantity = cartItem[productId][variantKey];
+    const size = variantKey; // No color, just size
+    if (quantity > 0) {
+      const product = products.find((p) => p._id === productId);
+      if (product) {
+        orderItems.push({
+          productId: product._id,
+          title: product.name,
+          image: product.image,
+          price: product.price,
+          size,
+          quantity,
+        });
       }
     }
+  }
+}
 
     // Prepare payload
-    const payload = {
-      user: formData,
-      items: orderItems,
-      shipping: selectedLocation,
-      paymentProof: uploadedUrl,
-      totalAmount: getCartAmount() + selectedLocation.price,
-    };
+   const payload = {
+  user: formData,
+  items: orderItems,
+  shipping: selectedLocation,
+  paymentProof: uploadedUrl,
+  totalAmount: getCartAmount() + selectedLocation.price,
+};
+
 
     try {
       const { data } = await axios.post(
@@ -221,14 +224,6 @@ const PlaceOrder = () => {
                 />
               </div>
 
-              {/* Shipping Details */}
-              <TransferDetails />
-
-              {/* UploadPaymentProof component must pass image to setPaymentProof */}
-              <UploadPaymentProof onUpload={setPaymentProof} />
-            </div>
-
-            <div className="xl:col-span-4 space-y-8">
               <div>
                 <h3 className="bold-20 mb-3">
                   Select <span className="text-secondary">Shipping</span>{" "}
@@ -236,6 +231,15 @@ const PlaceOrder = () => {
                 </h3>
                 <Shipping />
               </div>
+            </div>
+
+            <div className="xl:col-span-4 space-y-8">
+              {/* Shipping Details */}
+              <TransferDetails />
+
+              {/* UploadPaymentProof component must pass image to setPaymentProof */}
+              <UploadPaymentProof onUpload={setPaymentProof} />
+              
               <CartTotal showShipping={true} />
               <div>
                 <button
