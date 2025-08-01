@@ -40,21 +40,21 @@ const Product = () => {
   }, [productId, products]);
 
   useEffect(() => {
-    if (!size || !product?.variants) return;
+    if (!size || !product?.sizes) return;
 
-    const matchedVariant = product.variants.find((v) => v.size === size);
+    const selectedSizeObj = product.sizes.find(
+      (s) =>
+        typeof s === "object" && s.size?.toLowerCase() === size.toLowerCase()
+    );
 
-    if (!matchedVariant) {
-      setStockStatus("Variant not available");
-      setVariantQty(0);
-    } else if (matchedVariant.quantity === 0) {
+    if (!selectedSizeObj || selectedSizeObj.quantity === 0) {
       setStockStatus("Size out of stock");
       setVariantQty(0);
     } else {
       setStockStatus("");
-      setVariantQty(matchedVariant.quantity);
+      setVariantQty(selectedSizeObj.quantity);
     }
-  }, [size, product]); // ✅ Remove `color` from dependencies too
+  }, [size, product]);
 
   if (!product) {
     return <div>Loading...</div>;
@@ -165,7 +165,7 @@ const Product = () => {
               <div className="flex items-center gap-x-4">
                 <button
                   onClick={() => addToCart(product._id, size)}
-                  disabled={!size || variantQty === 0}
+                  disabled={!size}
                   className={`btn-secondary !rounded-lg flexCenter gap-x-2 capitalize ${
                     !size || variantQty === 0
                       ? "opacity-50 cursor-not-allowed"
