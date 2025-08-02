@@ -67,6 +67,10 @@ const Orders = () => {
                                 <h5 className="medium-14">Size:</h5>
                                 <p>{item.size}</p>
                               </div>
+                               <div className="flexCenter gap-x-2 text-blaxk-500">
+                                <h5 className="medium-14">Color:</h5>
+                                <p>{item.colors}</p>
+                              </div>
                             </div>
                             <div className="flex items-center gap-x-2 mt-2">
                               <h5>Date:</h5>

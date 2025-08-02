@@ -18,6 +18,8 @@ const Product = () => {
   const [stockStatus, setStockStatus] = useState("");
   const [variantQty, setVariantQty] = useState(null);
 
+  const [color, setColor] = useState("");
+  
   const fetchProductData = async () => {
     const selectedProduct = products.find((item) => item._id === productId);
 
@@ -40,21 +42,21 @@ const Product = () => {
   }, [productId, products]);
 
   useEffect(() => {
-    if (!size || !product?.sizes) return;
+    if (!size || !product?.variants) return;
 
-    const selectedSizeObj = product.sizes.find(
-      (s) =>
-        typeof s === "object" && s.size?.toLowerCase() === size.toLowerCase()
-    );
+    const matchedVariant = product.variants.find((v) => v.size === size);
 
-    if (!selectedSizeObj || selectedSizeObj.quantity === 0) {
+    if (!matchedVariant) {
+      setStockStatus("Variant not available");
+      setVariantQty(0);
+    } else if (matchedVariant.quantity === 0) {
       setStockStatus("Size out of stock");
       setVariantQty(0);
     } else {
       setStockStatus("");
-      setVariantQty(selectedSizeObj.quantity);
+      setVariantQty(matchedVariant.quantity);
     }
-  }, [size, product]);
+  }, [size, product]); // ✅ Remove `color` from dependencies too
 
   if (!product) {
     return <div>Loading...</div>;
@@ -153,6 +155,26 @@ const Product = () => {
               )}
             </div>
 
+            {product.colors && product.colors.length > 0 && (
+  <div className="flex gap-2 items-center mb-4">
+    <span className="medium-14">Color:</span>
+    <div className="flex gap-2">
+      {product.colors.map((colorValue, idx) => (
+        <button
+          key={colorValue + idx}
+          onClick={() => setColor(colorValue)}
+          className={`h-8 w-8 rounded-full border-2 ${
+            color === colorValue ? "ring-2 ring-secondary" : ""
+          }`}
+          style={{ backgroundColor: colorValue.toLowerCase() }}
+          title={colorValue}
+        />
+      ))}
+    </div>
+    {color && <span className="ml-2">{color}</span>}
+  </div>
+)}
+
             <div className="flex items-center gap-x-4">
               {isProductOutOfStock ? (
                 <p className="text-red-600 font-semibold">
@@ -163,17 +185,17 @@ const Product = () => {
               ) : null}
 
               <div className="flex items-center gap-x-4">
-                <button
-                  onClick={() => addToCart(product._id, size)}
-                  disabled={!size}
-                  className={`btn-secondary !rounded-lg flexCenter gap-x-2 capitalize ${
-                    !size || variantQty === 0
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                  }`}
-                >
-                  Add To Cart <TbShoppingBagPlus />
-                </button>
+               <button
+  onClick={() => addToCart(product._id, size, color)}
+  disabled={!size || !color || variantQty === 0}
+  className={`btn-secondary !rounded-lg flexCenter gap-x-2 capitalize ${
+    !size || !color || variantQty === 0
+      ? "opacity-50 cursor-not-allowed"
+      : ""
+  }`}
+>
+  Add To Cart <TbShoppingBagPlus />
+</button>
 
                 <button className="btn-light !rounded-lg !py-3.5">
                   <FaHeart />

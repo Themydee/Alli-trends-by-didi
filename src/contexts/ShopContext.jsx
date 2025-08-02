@@ -69,7 +69,7 @@ const ShopContextProvider = (props) => {
     return getCartAmount() + shipping;
   };
 
-  const addToCart = async (itemId, size = null) => {
+  const addToCart = async (itemId, size = null, color='') => {
   const product = products.find((p) => p._id === itemId);
 
   if (!product) {
@@ -128,7 +128,7 @@ const ShopContextProvider = (props) => {
     return;
   }
 
-  const variantKey = `${size}`;
+const variantKey = `${size}-${color}`;
   if (cartData[itemId][variantKey]) {
     cartData[itemId][variantKey] += 1;
   } else {
@@ -155,9 +155,8 @@ const ShopContextProvider = (props) => {
   }
 };
 
-
-  const updateQuantity = async (itemId, size, quantity) => {
-  const variantKey = `${size}`; // removed color
+const updateQuantity = async (itemId, size, color = "", quantity) => {
+  const variantKey = `${size}-${color}`;
   let cartData = structuredClone(cartItem);
 
   if (!cartData[itemId] || !cartData[itemId][variantKey]) return;
@@ -169,7 +168,7 @@ const ShopContextProvider = (props) => {
     try {
       await axios.post(
         server_url + "/api/cart/update",
-        { itemId, size, quantity }, // removed color
+        { itemId, size, color, quantity },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -182,7 +181,6 @@ const ShopContextProvider = (props) => {
     }
   }
 };
-
   const getUserCart = async (token) => {
     try {
       const response = await axios.post(
@@ -221,8 +219,8 @@ const ShopContextProvider = (props) => {
 
     return totalCount;
   };
-
-  const removeFromCart = async (productId, size) => {
+const removeFromCart = async (productId, size, color = "") => {
+  const variantKey = `${size}-${color}`;
   try {
     await axios.delete(server_url + "/api/cart/remove", {
       headers: {
@@ -231,13 +229,13 @@ const ShopContextProvider = (props) => {
       data: {
         itemId: productId,
         size,
+        color,
       },
     });
 
-    // ✅ Local update if backend succeeds
     const updatedCart = { ...cartItem };
-    if (updatedCart[productId] && updatedCart[productId][size]) {
-      delete updatedCart[productId][size];
+    if (updatedCart[productId] && updatedCart[productId][variantKey]) {
+      delete updatedCart[productId][variantKey];
 
       if (Object.keys(updatedCart[productId]).length === 0) {
         delete updatedCart[productId];

@@ -85,7 +85,11 @@ const orderItems = [];
 for (const productId in cartItem) {
   for (const variantKey in cartItem[productId]) {
     const quantity = cartItem[productId][variantKey];
-    const size = variantKey; // No color, just size
+    let size = variantKey;
+let color = "";
+if (variantKey.includes("-")) {
+  [size, color] = variantKey.split("-");
+}
     if (quantity > 0) {
       const product = products.find((p) => p._id === productId);
       if (product) {
@@ -95,6 +99,7 @@ for (const productId in cartItem) {
           image: product.image,
           price: product.price,
           size,
+          color,
           quantity,
         });
       }

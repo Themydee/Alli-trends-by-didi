@@ -24,41 +24,45 @@ const Cart = () => {
     if (products.length > 0) {
       const tempData = [];
       const initialQuantities = {};
-      for (const items in cartItem) {
-        for (const variantKey in cartItem[items]) {
-          if (cartItem[items][variantKey] > 0) {
-            const size = variantKey; // no longer split by color
-            tempData.push({
-              _id: items,
-              size,
-              quantity: cartItem[items][variantKey],
-            });
-            initialQuantities[`${items}-${size}`] = cartItem[items][variantKey];
-          }
-        }
+     for (const items in cartItem) {
+  for (const variantKey in cartItem[items]) {
+    if (cartItem[items][variantKey] > 0) {
+      // Split variantKey into size and color
+      let size = variantKey;
+      let color = "";
+      if (variantKey.includes("-")) {
+        [size, color] = variantKey.split("-");
       }
+      tempData.push({
+        _id: items,
+        size,
+        color,
+        quantity: cartItem[items][variantKey],
+      });
+      initialQuantities[`${items}-${size}-${color}`] = cartItem[items][variantKey];
+    }
+  }
+}
       setCartData(tempData);
       setQuantities(initialQuantities);
     }
   }, [cartItem, products]);
 
-  const increment = (id, size) => {
-    const key = `${id}-${size}`;
-    const newValue = (quantities[key] || 0) + 1;
+ const increment = (id, size, color) => {
+  const key = `${id}-${size}-${color}`;
+  const newValue = (quantities[key] || 0) + 1;
+  setQuantities((prev) => ({ ...prev, [key]: newValue }));
+  updateQuantity(id, `${size}-${color}`, newValue);
+};
 
+const decrement = (id, size, color) => {
+  const key = `${id}-${size}-${color}`;
+  if (quantities[key] > 1) {
+    const newValue = quantities[key] - 1;
     setQuantities((prev) => ({ ...prev, [key]: newValue }));
-    updateQuantity(id, size, newValue); // removed color
-  };
-
-  const decrement = (id, size) => {
-    const key = `${id}-${size}`;
-    if (quantities[key] > 1) {
-      const newValue = quantities[key] - 1;
-
-      setQuantities((prev) => ({ ...prev, [key]: newValue }));
-      updateQuantity(id, size, newValue); // removed color
-    }
-  };
+    updateQuantity(id, `${size}-${color}`, newValue);
+  }
+};
 
   return (
     <div>
@@ -78,73 +82,57 @@ const Cart = () => {
           )}
 
           {cartData.map((item) => {
-            const productData = products.find(
-              (product) => product._id === item._id
-            );
-            const key = `${item._id}-${item.size}`;
-            if (!productData) return null;
+  const productData = products.find(
+    (product) => product._id === item._id
+  );
+  const key = `${item._id}-${item.size}-${item.color}`;
+  if (!productData) return null;
 
-            return (
-              <div key={key} className="rounded-lg bg-white p-4 mb-4 shadow-sm">
-                <div className="flex items-center gap-x-4">
-                  <img
-                    src={productData.image[0]}
-                    alt={productData.name}
-                    className="w-20 h-20 rounded object-cover"
-                  />
-
-                  <div className="flex flex-col w-full">
-                    <div className="flexBetween">
-                      <h5 className="h5 !my-0 line-clamp-1">
-                        {productData.name}
-                      </h5>
-                      <FaRegWindowClose
-                        onClick={
-                          () => removeFromCart(item._id, item.size) // removed color
-                        }
-                        className="cursor-pointer text-secondary"
-                      />
-                    </div>
-
-                    {item.size === "wholesale" ? (
-                      <div className="mt-3 flex items-center gap-2 text-sm">
-                        <p className="text-gray-500">Type:</p>
-                        <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium">
-                          🛒 Wholesale
-                        </span>
-                      </div>
-                    ) : (
-                      <div className="text-sm text-gray-500 mt-1">
-                        Size:{" "}
-                        <span className="text-black font-medium">
-                          {item.size}
-                        </span>
-                      </div>
-                    )}
-
-                    <div className="flex items-center justify-between w-full mt-2">
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => decrement(item._id, item.size)}>
-                          <FaMinus className="text-xs" />
-                        </button>
-                        <p>{quantities[key]}</p>
-                        <button
-                          onClick={() => increment(item._id, item.size)}
-                          className="p-1.5 bg-white text-secondary rounded-full shadow-md"
-                        >
-                          <FaPlus className="text-xs" />
-                        </button>
-                      </div>
-                      <h1 className="text-sm font-bold">
-                        {currency}
-                        {productData.price}
-                      </h1>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+  return (
+    <div key={key} className="rounded-lg bg-white p-4 mb-4 shadow-sm">
+      <div className="flex items-center gap-x-4">
+        <img
+          src={productData.image[0]}
+          alt={productData.name}
+          className="w-20 h-20 rounded object-cover"
+        />
+        <div className="flex flex-col w-full">
+          <div className="flexBetween">
+            <h5 className="h5 !my-0 line-clamp-1">
+              {productData.name}
+            </h5>
+            <FaRegWindowClose
+              onClick={() => removeFromCart(item._id, `${item.size}-${item.color}`)}
+              className="cursor-pointer text-secondary"
+            />
+          </div>
+          <div className="text-sm text-gray-500 mt-1">
+            Size: <span className="text-black font-medium">{item.size}</span>
+            {item.color && (
+              <>
+                {" | "}
+                Color: <span className="text-black font-medium">{item.color}</span>
+              </>
+            )}
+          </div>
+          {/* ...rest of your code... */}
+          <div className="flex items-center gap-2">
+            <button onClick={() => decrement(item._id, item.size, item.color)}>
+              <FaMinus className="text-xs" />
+            </button>
+            <p>{quantities[key]}</p>
+            <button
+              onClick={() => increment(item._id, item.size, item.color)}
+              className="p-1.5 bg-white text-secondary rounded-full shadow-md"
+            >
+              <FaPlus className="text-xs" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
         </div>
 
         <div className="flex justify-center my-20 px-4">
